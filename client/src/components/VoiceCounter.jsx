@@ -94,7 +94,7 @@ export function speakNepali(text) {
 
 // ── COMPONENT ────────────────────────────────────────────────────
 export default function VoiceCounter({ value, onChange, unit, min = 1, max = 9999 }) {
-  const holdRef   = useRef(null);
+  const holdRef = useRef(null);
   const [typing, setTyping] = useState(false);
   const [draft,  setDraft]  = useState('');
 
@@ -103,7 +103,7 @@ export default function VoiceCounter({ value, onChange, unit, min = 1, max = 999
     if (!window.speechSynthesis) return;
     const load = () => { cachedVoice = null; getVoice(); voicesLoaded = true; };
     window.speechSynthesis.onvoiceschanged = load;
-    window.speechSynthesis.getVoices(); // trigger load
+    window.speechSynthesis.getVoices();
     return () => { window.speechSynthesis.onvoiceschanged = null; };
   }, []);
 
@@ -113,15 +113,13 @@ export default function VoiceCounter({ value, onChange, unit, min = 1, max = 999
     speakNepali(toNepali(next));
   };
 
-  // Hold-to-repeat — non-passive pointer events
   const startHold = (delta) => {
     holdRef.current = setInterval(() => {
       onChange(prev => Math.min(Math.max(prev + delta, min), max));
-    }, 110);
+    }, 130);
   };
   const stopHold = () => clearInterval(holdRef.current);
 
-  // Typing mode
   const commitDraft = () => {
     const n = parseInt(draft, 10);
     if (!isNaN(n) && n >= min && n <= max) {
@@ -135,9 +133,9 @@ export default function VoiceCounter({ value, onChange, unit, min = 1, max = 999
   return (
     <div className="vc-wrap">
 
-      {/* ── MINUS HALF-SCREEN ── */}
+      {/* MINUS — entire left column, full height */}
       <button
-        className="vc-side vc-minus"
+        className="vc-minus"
         disabled={value <= min}
         onClick={() => change(-1)}
         onPointerDown={() => startHold(-1)}
@@ -145,11 +143,14 @@ export default function VoiceCounter({ value, onChange, unit, min = 1, max = 999
         onPointerLeave={stopHold}
         onPointerCancel={stopHold}
       >
-        −
+        <span className="vc-sign">−</span>
       </button>
 
-      {/* ── CENTER ── */}
-      <div className="vc-center" onClick={() => { setTyping(true); setDraft(String(value)); }}>
+      {/* CENTER — number display, tap to type */}
+      <div
+        className="vc-center"
+        onClick={() => { if (!typing) { setTyping(true); setDraft(String(value)); } }}
+      >
         {typing ? (
           <input
             className="vc-input"
@@ -165,14 +166,14 @@ export default function VoiceCounter({ value, onChange, unit, min = 1, max = 999
             <div className="vc-value">{value}</div>
             <div className="vc-unit">{unit}</div>
             <div className="vc-nepali">{toNepali(value)}</div>
-            <div className="vc-hint">थिचेर नम्बर लेख्नुस्</div>
+            <div className="vc-hint">Tap to type</div>
           </>
         )}
       </div>
 
-      {/* ── PLUS HALF-SCREEN ── */}
+      {/* PLUS — entire right column, full height */}
       <button
-        className="vc-side vc-plus"
+        className="vc-plus"
         disabled={value >= max}
         onClick={() => change(1)}
         onPointerDown={() => startHold(1)}
@@ -180,8 +181,9 @@ export default function VoiceCounter({ value, onChange, unit, min = 1, max = 999
         onPointerLeave={stopHold}
         onPointerCancel={stopHold}
       >
-        +
+        <span className="vc-sign">+</span>
       </button>
+
     </div>
   );
 }
