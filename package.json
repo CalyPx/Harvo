@@ -1,0 +1,10 @@
+{
+  "name": "krishidirect",
+  "version": "1.0.0",
+  "scripts": {
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "dev": "npm run server & npm run client",
+    "install-all": "cd server && npm install && cd ../client && npm install"
+  }
+}

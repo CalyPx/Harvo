@@ -1,0 +1,52 @@
+.vendor-page { display: flex; min-height: 100vh; }
+.vendor-main  { flex: 1; padding: 40px; overflow-y: auto; }
+
+/* FILTERS */
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+.filter-btn {
+  padding: 6px 16px; border-radius: 100px; border: 1px solid var(--border);
+  background: var(--surface2); color: var(--text-muted); font-size: 13px;
+  cursor: pointer; transition: all 0.15s;
+}
+.filter-btn:hover  { border-color: var(--green); color: var(--text); }
+.filter-btn.active { background: rgba(45,106,79,0.2); border-color: var(--green-light); color: var(--green-light); font-weight: 600; }
+
+/* VENDOR GRID */
+.vendor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+.vendor-card { display: flex; flex-direction: column; }
+.vendor-crop-emoji { font-size: 56px; text-align: center; margin-bottom: 8px; }
+.vendor-crop-name  { font-size: 20px; font-weight: 700; text-align: center; margin-bottom: 16px; }
+.vendor-meta { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+.vm-row { display: flex; justify-content: space-between; font-size: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+.vm-row:last-child { border: none; }
+.savings-tag { font-size: 12px; color: var(--orange); background: rgba(244,162,97,0.1); padding: 6px 12px; border-radius: var(--radius); text-align: center; margin-bottom: 4px; }
+
+/* ORDER INLINE */
+.order-inline { margin-top: 12px; }
+
+/* ORDERS LIST */
+.orders-list  { display: flex; flex-direction: column; gap: 16px; }
+.order-card   { display: flex; align-items: center; gap: 20px; }
+.order-emoji  { font-size: 40px; flex-shrink: 0; }
+.order-info   { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.order-crop   { font-size: 18px; font-weight: 700; }
+.order-total  { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: var(--success); margin-bottom: 8px; }
+
+/* NOTIF DOT */
+.notif-dot { display: inline-block; width: 8px; height: 8px; background: var(--orange); border-radius: 50%; margin-left: 6px; }
+
+/* TOAST */
+.toast-success {
+  position: fixed; bottom: 24px; right: 24px; z-index: 999;
+  background: var(--success); color: #111;
+  padding: 14px 24px; border-radius: var(--radius);
+  font-weight: 600; animation: fadeInUp 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+@media (max-width: 768px) {
+  .vendor-page { flex-direction: column; }
+  .vendor-main  { padding: 20px; }
+  .vendor-grid  { grid-template-columns: 1fr; }
+  .order-card   { flex-wrap: wrap; }
+}

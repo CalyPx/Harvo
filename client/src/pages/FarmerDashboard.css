@@ -1,0 +1,91 @@
+.farmer-page { display: flex; min-height: 100vh; }
+
+/* SIDEBAR */
+.sidebar {
+  width: 240px; flex-shrink: 0;
+  background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; padding: 24px 16px;
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+}
+.sidebar-logo { font-family: var(--font-head); font-size: 18px; font-weight: 800; color: var(--green-light); margin-bottom: 36px; padding: 0 8px; }
+.sidebar-nav  { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.sidebar-link {
+  display: block; padding: 10px 16px; border-radius: var(--radius); border: none;
+  background: transparent; color: var(--text-muted); font-size: 14px; font-weight: 500;
+  text-align: left; cursor: pointer; transition: all 0.15s; text-decoration: none;
+}
+.sidebar-link:hover { background: var(--surface2); color: var(--text); }
+.sidebar-link.active { background: rgba(45,106,79,0.2); color: var(--green-light); }
+.sidebar-user  { border-top: 1px solid var(--border); padding-top: 16px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; }
+.sidebar-avatar { font-size: 36px; }
+.sidebar-name  { font-weight: 600; font-size: 14px; }
+.sidebar-district { font-size: 12px; }
+
+/* MAIN */
+.farmer-main { flex: 1; padding: 40px; overflow-y: auto; max-width: calc(100vw - 240px); }
+.page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 32px; gap: 16px; }
+.page-header h1 { font-size: 28px; margin-bottom: 4px; }
+
+/* QUICK STATS */
+.quick-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 40px; }
+.quick-stat   { text-align: center; }
+.qs-num   { font-family: var(--font-head); font-size: 32px; font-weight: 800; margin-bottom: 4px; }
+.qs-label { font-size: 13px; }
+
+/* SECTION BLOCKS */
+.section-block { margin-bottom: 40px; }
+.block-title   { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+.empty-state   { color: var(--text-muted); font-size: 15px; padding: 32px; text-align: center; border: 1px dashed var(--border); border-radius: var(--radius-lg); }
+
+/* LISTINGS GRID */
+.listings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+.listing-card  { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.listing-emoji { font-size: 48px; }
+.listing-crop  { font-weight: 700; font-size: 16px; }
+.listing-details, .listing-district { font-size: 13px; }
+
+/* ORDERS */
+.orders-list  { display: flex; flex-direction: column; gap: 12px; }
+.order-card   { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.order-info   { flex: 1; }
+.order-crop   { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.order-total  { color: var(--success); font-weight: 700; margin-top: 4px; }
+.order-actions{ display: flex; gap: 8px; flex-shrink: 0; }
+
+/* WIZARD */
+.wizard       { max-width: 700px; }
+.wizard-header{ display: flex; align-items: center; gap: 24px; margin-bottom: 32px; }
+.wizard-steps { display: flex; gap: 8px; }
+.wstep { padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 600; background: var(--surface2); color: var(--text-muted); }
+.wstep.done   { background: rgba(45,106,79,0.2); color: var(--green-light); }
+.wizard-title { font-size: 24px; font-weight: 700; margin-bottom: 8px; line-height: 1.4; }
+
+/* CONFIRM */
+.confirm-card { display: flex; align-items: center; gap: 24px; margin-top: 24px; }
+.confirm-emoji{ font-size: 72px; }
+.confirm-details{ flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.confirm-row  { display: flex; justify-content: space-between; font-size: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.confirm-row:last-child { border: none; }
+.confirm-buttons{ display: flex; gap: 16px; margin-top: 24px; }
+
+/* PRICE HINT */
+.price-hint p { font-size: 14px; color: var(--text-muted); }
+.price-hint strong { color: var(--text); }
+
+/* TOAST */
+.toast-success {
+  position: fixed; bottom: 24px; right: 24px; z-index: 999;
+  background: var(--success); color: #111;
+  padding: 14px 24px; border-radius: var(--radius);
+  font-weight: 600; font-size: 15px;
+  animation: fadeInUp 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+@media (max-width: 768px) {
+  .farmer-page { flex-direction: column; }
+  .sidebar { width: 100%; height: auto; position: static; flex-direction: row; flex-wrap: wrap; padding: 16px; }
+  .farmer-main { padding: 20px; max-width: 100%; }
+  .quick-stats { grid-template-columns: repeat(2,1fr); }
+  .confirm-card { flex-direction: column; }
+}

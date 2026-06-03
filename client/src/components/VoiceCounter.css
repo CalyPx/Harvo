@@ -1,0 +1,22 @@
+.voice-counter {
+  display: flex; align-items: center; justify-content: center; gap: 32px;
+  margin: 40px auto; max-width: 400px;
+}
+.vc-btn {
+  width: 80px; height: 80px; border-radius: 50%;
+  border: none; font-size: 36px; font-weight: 300;
+  cursor: pointer; transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center;
+  user-select: none; -webkit-user-select: none;
+}
+.vc-minus { background: rgba(248,81,73,0.15); color: var(--danger); }
+.vc-minus:hover:not(:disabled) { background: rgba(248,81,73,0.3); transform: scale(1.1); }
+.vc-plus  { background: rgba(63,185,80,0.15); color: var(--success); }
+.vc-plus:hover:not(:disabled)  { background: rgba(63,185,80,0.3);  transform: scale(1.1); }
+.vc-btn:active:not(:disabled)  { transform: scale(0.95); }
+.vc-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.vc-display { text-align: center; min-width: 120px; }
+.vc-value   { font-family: var(--font-head); font-size: 72px; font-weight: 800; line-height: 1; color: var(--text); }
+.vc-unit    { font-size: 18px; color: var(--green-light); font-weight: 600; margin-top: 4px; }
+.vc-nepali  { font-size: 20px; color: var(--text-muted); margin-top: 8px; font-weight: 500; }

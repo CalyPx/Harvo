@@ -1,0 +1,21 @@
+.crop-picker {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.crop-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 16px 8px; border-radius: var(--radius);
+  border: 2px solid var(--border);
+  background: var(--surface2); cursor: pointer;
+  transition: all 0.15s ease;
+}
+.crop-btn:hover { border-color: var(--green); transform: translateY(-2px); }
+.crop-btn.selected { border-color: var(--green-light); background: rgba(45,106,79,0.2); box-shadow: var(--glow-green); }
+.crop-emoji  { font-size: 36px; line-height: 1; }
+.crop-nepali { font-size: 13px; font-weight: 600; color: var(--text); }
+.crop-english{ font-size: 11px; color: var(--text-muted); }
