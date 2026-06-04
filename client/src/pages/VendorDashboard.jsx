@@ -26,7 +26,6 @@ export default function VendorDashboard() {
   const [kalimatiRates, setKalimatiRates] = useState({});
   const [menuOpen,      setMenuOpen]      = useState(false);
 
-  // Support ?tab=orders deep link from bottom nav
   useEffect(() => {
     const p = new URLSearchParams(location.search);
     if (p.get('tab') === 'orders') setTab('orders');
@@ -77,52 +76,82 @@ export default function VendorDashboard() {
     cancelled:    'badge-red',
   }[s] || 'badge-gray');
 
+  const handleTab = (t) => { setTab(t); setMenuOpen(false); };
+  const handleLogout = () => { logout(); navigate('/'); };
+
   return (
-    <div className="vd-page page-with-bottom-nav">
+    <div className="vd-page">
 
       {/* TOP NAV */}
-      <nav className="harvo-nav">
-        <div className="nav-logo">
-          <img src="/images/harvo_logo.png" alt="Harvo" />
+      <nav className="vd-nav">
+        {/* Logo */}
+        <div className="vd-nav-logo">
           Harvo
         </div>
-        <div className="nav-links">
-          <button className={`nav-link ${tab==='browse'?'nav-link-active':''}`} onClick={() => setTab('browse')}>Browse</button>
-          <button className={`nav-link ${tab==='orders'?'nav-link-active':''}`} onClick={() => setTab('orders')}>
-            Orders {pendingCount > 0 && <span className="nav-badge">{pendingCount}</span>}
+
+        {/* Desktop glass pill tabs */}
+        <div className="vd-nav-tabs">
+          <button
+            className={`vd-tab ${tab === 'browse' ? 'vd-tab-active' : ''}`}
+            onClick={() => handleTab('browse')}
+          >
+            Browse
           </button>
-          <Link to="/impact" className="nav-link">Impact</Link>
+          <button
+            className={`vd-tab ${tab === 'orders' ? 'vd-tab-active' : ''}`}
+            onClick={() => handleTab('orders')}
+          >
+            Orders
+            {pendingCount > 0 && <span className="vd-nav-badge">{pendingCount}</span>}
+          </button>
+          <Link to="/impact" className="vd-tab vd-tab-link">Impact</Link>
         </div>
-        <div className="nav-actions">
-          <div className="vd-user-pill" onClick={() => setMenuOpen(o => !o)}>
-            <div className="vd-avatar">{user?.name?.[0]?.toUpperCase()}</div>
-            <span className="vd-username">{user?.name}</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>
-          </div>
-          {menuOpen && (
-            <div className="vd-dropdown">
-              <div className="vd-dropdown-user">
-                <div className="vd-dd-name">{user?.name}</div>
-                <div className="vd-dd-meta">{user?.district} · Vendor</div>
-              </div>
-              <button className="vd-dd-item vd-dd-red" onClick={() => { logout(); navigate('/'); }}>
-                Sign out
-              </button>
-            </div>
-          )}
-        </div>
+
+        {/* Desktop Sign Out */}
+        <button className="vd-signout-btn" onClick={handleLogout}>
+          Sign Out ↗
+        </button>
+
+        {/* Mobile hamburger */}
+        <button
+          className="vd-hamburger"
+          onClick={() => setMenuOpen(o => !o)}
+          aria-label="Menu"
+        >
+          <span className={menuOpen ? 'hbx' : ''} />
+          <span className={menuOpen ? 'hbx' : ''} />
+          <span className={menuOpen ? 'hbx' : ''} />
+        </button>
       </nav>
+
+      {/* Mobile dropdown menu */}
+      {menuOpen && (
+        <div className="vd-mobile-menu">
+          <button className={`vd-mm-btn ${tab==='browse'?'vd-mm-btn-active':''}`} onClick={() => handleTab('browse')}>
+            🌾 Browse
+          </button>
+          <button className={`vd-mm-btn ${tab==='orders'?'vd-mm-btn-active':''}`} onClick={() => handleTab('orders')}>
+            📋 Orders {pendingCount > 0 && <span className="vd-nav-badge">{pendingCount}</span>}
+          </button>
+          <Link to="/impact" className="vd-mm-btn" onClick={() => setMenuOpen(false)}>
+            📊 Impact
+          </Link>
+          <button className="vd-mm-btn vd-mm-signout" onClick={handleLogout}>
+            Sign Out ↗
+          </button>
+        </div>
+      )}
 
       <div className="vd-body">
 
         {/* ── BROWSE ── */}
         {tab === 'browse' && (
           <div className="fade-in-up">
-            <div className="vd-browse-header">
-              <div>
-                <h2 className="vd-browse-title">Fresh Produce</h2>
-                <p className="vd-browse-sub">{filtered.length} listing{filtered.length !== 1 ? 's' : ''} available · Direct from farmers</p>
-              </div>
+            <div className="vd-section-head">
+              <h2 className="vd-section-title">Fresh Produce</h2>
+              <p className="vd-section-sub">
+                {filtered.length} listing{filtered.length !== 1 ? 's' : ''} available · Direct from farmers
+              </p>
             </div>
 
             <div className="vd-search-wrap">
@@ -144,7 +173,7 @@ export default function VendorDashboard() {
               <div className="vd-empty">
                 <div className="vd-empty-icon">🌾</div>
                 <div className="vd-empty-text">No produce found</div>
-                <div className="vd-empty-sub">Try a different search</div>
+                <div className="vd-empty-sub">Try a different search term</div>
               </div>
             ) : (
               <div className="vd-grid">
@@ -170,11 +199,10 @@ export default function VendorDashboard() {
                           ? <img src={crop.img} alt={l.crop} className="vd-img"
                               onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }} />
                           : null}
-                        <div className="vd-fallback" style={{ background: crop?.fallback || '#333', display: crop?.img ? 'none' : 'flex' }}>
+                        <div className="vd-fallback" style={{ background: crop?.fallback || '#1a2e1a', display: crop?.img ? 'none' : 'flex' }}>
                           {l.cropPhoto || l.crop[0]}
                         </div>
 
-                        {/* Top badges */}
                         {savings > 0 && <div className="vd-badge-save">−Rs {savings}/kg</div>}
                         {isFresh && <div className="vd-badge-fresh">🌱 Fresh</div>}
                       </div>
@@ -189,9 +217,6 @@ export default function VendorDashboard() {
                         </div>
 
                         <div className="vd-card-meta-row">
-                          <span className="vd-grade-tag" style={{ color: grade.color }}>
-                            {grade.emoji} {grade.label}
-                          </span>
                           <span className="vd-meta-text">{l.quantity} kg · {l.farmer?.district}</span>
                         </div>
 
@@ -213,11 +238,9 @@ export default function VendorDashboard() {
         {/* ── ORDERS ── */}
         {tab === 'orders' && (
           <div className="fade-in-up">
-            <div className="vd-browse-header">
-              <div>
-                <h2 className="vd-browse-title">My Orders</h2>
-                <p className="vd-browse-sub">{myOrders.length} order{myOrders.length !== 1 ? 's' : ''} total</p>
-              </div>
+            <div className="vd-section-head">
+              <h2 className="vd-section-title">My Orders</h2>
+              <p className="vd-section-sub">{myOrders.length} order{myOrders.length !== 1 ? 's' : ''} total</p>
             </div>
 
             {myOrders.length === 0 ? (
@@ -225,7 +248,9 @@ export default function VendorDashboard() {
                 <div className="vd-empty-icon">📋</div>
                 <div className="vd-empty-text">No orders yet</div>
                 <div className="vd-empty-sub">Browse produce and place your first order</div>
-                <button className="btn btn-primary" style={{marginTop:16}} onClick={() => setTab('browse')}>Browse Produce</button>
+                <button className="vd-empty-cta" onClick={() => setTab('browse')}>
+                  Browse Produce →
+                </button>
               </div>
             ) : (
               <div className="vdo-list">
@@ -236,10 +261,10 @@ export default function VendorDashboard() {
                   const cod     = (o.totalAmount || 0) - deposit;
                   return (
                     <div key={o._id} className="vdo-card">
-                      <div className="vdo-img-wrap" style={{ background: (crop?.fallback || '#333') + '22' }}>
+                      <div className="vdo-img-wrap">
                         {crop?.img
                           ? <img src={crop.img} alt="" className="vdo-img" />
-                          : <div className="vdo-fallback" style={{ background: crop?.fallback || '#444' }}>{o.listing?.crop?.[0]}</div>
+                          : <div className="vdo-fallback" style={{ background: crop?.fallback || '#1a2e1a' }}>{o.listing?.crop?.[0]}</div>
                         }
                       </div>
 
@@ -250,13 +275,12 @@ export default function VendorDashboard() {
                         </div>
                         <div className="vdo-details">
                           <span>{o.quantity} kg · Rs {o.agreedPrice}/kg</span>
-                          <span className="vdo-grade" style={{ color: grade.color }}>{grade.emoji} {grade.label}</span>
                         </div>
                         <div className="vdo-payment-row">
-                          <span className="text-muted" style={{fontSize:13}}>
-                            Advance paid: <strong style={{color:'var(--green)'}}>Rs {deposit.toLocaleString()}</strong>
+                          <span>
+                            Advance paid: <strong style={{color:'#BBFF4B'}}>Rs {deposit.toLocaleString()}</strong>
                           </span>
-                          <span className="text-muted" style={{fontSize:13}}>
+                          <span>
                             On delivery: <strong>Rs {cod.toLocaleString()}</strong>
                           </span>
                         </div>

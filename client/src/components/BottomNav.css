@@ -75,4 +75,7 @@
   .harvo-nav .nav-actions {
     display: none;
   }
+
+  /* Vendor nav: hamburger handles mobile, bottom nav also shown */
+  .bn-tab.bn-active { color: var(--green); }
 }

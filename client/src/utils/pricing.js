@@ -25,29 +25,27 @@ export const DISTRICT_COORDS = {
 };
 
 /**
- * MOCK: Upaya CityCargo API Pricing Simulator
- * Instead of our own algorithm, we simulate an API call to a 3PL partner.
+ * Demo-friendly logistics cost simulator.
+ * Kept realistic but modest so total doesn't overwhelm the goods price.
+ *
+ * Formula:
+ *  - Rs 2/kg base rate (covers fuel + labour)
+ *  - + Rs 0.10/kg per km (distance surcharge)
+ *  - Minimum Rs 30 total (short trips)
+ *  - Capped at Rs 15/kg so large orders stay reasonable
  */
 export function calcLogistics(quantity, distanceKm) {
-  // Determine vehicle type based on weight
-  // up to 100kg -> bike/scooter or small auto
-  // 100kg - 1000kg -> pickup
-  const vehicleType = quantity <= 100 ? 'bike' : 'pickup';
-  
-  const rates = {
-      bike: { base: 50, perKm: 15 },
-      pickup: { base: 500, perKm: 60 }
-  };
+  const baseRatePerKg    = 2;                          // Rs 2/kg flat
+  const distanceRatePerKg = 0.10;                      // Rs 0.10 per kg per km
+  const rawPerKg = baseRatePerKg + (distanceKm * distanceRatePerKg);
+  const perKg    = Math.min(15, Math.max(2, Math.round(rawPerKg))); // clamp 2–15
+  const total    = Math.max(30, Math.round(perKg * quantity));
 
-  const selected = rates[vehicleType];
-  const total = selected.base + (distanceKm * selected.perKm);
-  
-  // Return same interface for frontend
-  const perKg = Math.round(total / quantity);
-  return { perKg, total: Math.round(total), vehicleType };
+  const vehicleType = quantity <= 100 ? 'bike' : 'pickup';
+  return { perKg, total, vehicleType };
 }
 
-// Full order cost breakdown — 4% platform commission, 10% Advance Deposit via eSewa
+// Full order cost breakdown — 4% platform commission
 export function calcOrderCost(quantity, pricePerKg, farmerDistrict, vendorDistrict) {
   const fC = DISTRICT_COORDS[farmerDistrict] || { lat:27.7, lng:85.3 };
   const vC = DISTRICT_COORDS[vendorDistrict] || { lat:27.7, lng:85.3 };
@@ -57,7 +55,7 @@ export function calcOrderCost(quantity, pricePerKg, farmerDistrict, vendorDistri
   const goodsTotal     = quantity * pricePerKg;
   const commission     = Math.round(goodsTotal * 0.04);   // 4% platform fee
   const grandTotal     = goodsTotal + logisticsTotal + commission;
-  
+
   // 10% Advance (Minimum Rs 50) via eSewa to lock order
   const deposit        = Math.max(50, Math.round(grandTotal * 0.10));
   const cashOnDelivery = grandTotal - deposit;

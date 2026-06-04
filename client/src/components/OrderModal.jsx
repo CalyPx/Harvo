@@ -156,7 +156,7 @@ export default function OrderModal({ listing, onClose }) {
               </div>
               <div className="bt-row total-row">
                 <span>💰 Total Payable</span>
-                <strong style={{color:'var(--success)',fontSize:20}}>Rs {costs.grandTotal.toLocaleString()}</strong>
+                <strong style={{color:'#BBFF4B',fontSize:20}}>Rs {costs.grandTotal.toLocaleString()}</strong>
               </div>
             </div>
 
@@ -266,7 +266,7 @@ export default function OrderModal({ listing, onClose }) {
               <div className="ps-row"><span className="text-muted">Platform (4%)</span><strong>Rs {costs.commission.toLocaleString()}</strong></div>
               <div className="ps-row highlight-row">
                 <span><strong>Total Payable</strong></span>
-                <strong style={{color:'var(--success)',fontSize:22}}>Rs {costs.grandTotal.toLocaleString()}</strong>
+                <strong style={{color:'#BBFF4B',fontSize:22}}>Rs {costs.grandTotal.toLocaleString()}</strong>
               </div>
             </div>
 
