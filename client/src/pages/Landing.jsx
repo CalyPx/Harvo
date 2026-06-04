@@ -32,7 +32,6 @@ export default function Landing() {
         {/* Desktop pills */}
         <div className="land-nav-pills">
           <Link to="/"        className="lnp">Home</Link>
-          <Link to="/impact"  className="lnp">Impact</Link>
           <Link to="/about"   className="lnp">About Us</Link>
           <Link to="/contact" className="lnp">Contact</Link>
         </div>
@@ -54,7 +53,6 @@ export default function Landing() {
       {menu && (
         <div className="land-mobile-menu">
           <Link to="/"        className="lmm-link" onClick={close}>Home</Link>
-          <Link to="/impact"  className="lmm-link" onClick={close}>Impact</Link>
           <Link to="/about"   className="lmm-link" onClick={close}>About Us</Link>
           <Link to="/contact" className="lmm-link" onClick={close}>Contact</Link>
           <Link to="/login"   className="lmm-link lmm-signin" onClick={close}>Sign In ↗</Link>
@@ -64,7 +62,6 @@ export default function Landing() {
       {/* ── HERO ── */}
       <main className="land-hero">
         <div className="land-tag">
-          <span className="land-tag-dot" />
           Empowering Farmers
         </div>
 
@@ -80,7 +77,7 @@ export default function Landing() {
         </p>
 
         <div className="land-role-section">
-          <div className="land-i-am">I am a —</div>
+          <div className="land-i-am">I am a</div>
           <div className="land-role-btns">
             <Link to="/register?role=farmer" className="land-rb land-rb-farmer">
               <span className="land-rb-en">Farmer</span>

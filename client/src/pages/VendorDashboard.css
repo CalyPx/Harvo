@@ -542,7 +542,6 @@
   .vd-nav {
     padding: 0 20px;
   }
-  .vd-nav-tabs { display: none; }
   .vd-hamburger { display: flex; }
   .vd-signout-btn { display: none; }
 }

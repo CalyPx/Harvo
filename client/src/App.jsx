@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { LanguageProvider } from './context/LanguageContext';
 
 import Landing         from './pages/Landing';
 import Login           from './pages/Login';
@@ -22,26 +23,28 @@ const PrivateRoute = ({ children, role }) => {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <Routes>
-          <Route path="/"                element={<Landing />} />
-          <Route path="/login"           element={<Login />} />
-          <Route path="/register"        element={<Register />} />
-          <Route path="/impact"          element={<ImpactBoard />} />
-          <Route path="/about"           element={<AboutUs />} />
-          <Route path="/contact"         element={<Contact />} />
-          <Route path="/listing/:id"     element={<ListingDetail />} />
-          <Route path="/payment-success" element={<PaymentSuccess />} />
-          <Route path="/payment-failed"  element={<PaymentFailed />} />
-          <Route path="/farmer" element={
-            <PrivateRoute role="farmer"><FarmerDashboard /></PrivateRoute>
-          } />
-          <Route path="/vendor" element={
-            <PrivateRoute role="vendor"><VendorDashboard /></PrivateRoute>
-          } />
-        </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+          <Routes>
+            <Route path="/"                element={<Landing />} />
+            <Route path="/login"           element={<Login />} />
+            <Route path="/register"        element={<Register />} />
+            <Route path="/impact"          element={<ImpactBoard />} />
+            <Route path="/about"           element={<AboutUs />} />
+            <Route path="/contact"         element={<Contact />} />
+            <Route path="/listing/:id"     element={<ListingDetail />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/payment-failed"  element={<PaymentFailed />} />
+            <Route path="/farmer" element={
+              <PrivateRoute role="farmer"><FarmerDashboard /></PrivateRoute>
+            } />
+            <Route path="/vendor" element={
+              <PrivateRoute role="vendor"><VendorDashboard /></PrivateRoute>
+            } />
+          </Routes>
+        </BrowserRouter>
+      </AuthProvider>
+    </LanguageProvider>
   );
 }
