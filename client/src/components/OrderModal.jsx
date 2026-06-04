@@ -275,9 +275,6 @@ export default function OrderModal({ listing, onClose }) {
               <p className="text-muted" style={{fontSize:13,marginTop:4}}>You'll be redirected to eSewa to complete payment securely.</p>
             </div>
 
-            <div className="esewa-test-note">
-              🧪 <strong>Test credentials:</strong> eSewa ID: 9711111111 · Password: Nepal@123 · OTP: 123456
-            </div>
 
             <div style={{display:'flex',gap:12}}>
               <button className="btn btn-ghost" onClick={() => setStep('call')}>← Back</button>
